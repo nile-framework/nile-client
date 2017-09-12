@@ -1,0 +1,20 @@
+<ion-content padding>
+    
+    <!-- /Users/kevintowe/NileDelivery/nile/src/assets/img/nile_logo.jpg -->
+  <img class="nileLogo" src="../../assets/img/nile_logo.jpg">
+  
+  <!-- <h1 text-center class="landingTitle" #landingTitle >Nile</h1> -->
+
+  <h3 text-center class="slogan"> agile material delivery </h3>
+
+  <div text-center>
+    <button  round ion-button (click)="signUp()">{{ 'SIGNUP' | translate }}</button>
+  </div>
+      
+</ion-content>
+    
+<ion-footer>
+  <ion-toolbar text-center>
+    <button ion-button clear (click)="signIn()">{{ 'Have an account? Sign in' | translate }}</button>
+  </ion-toolbar>
+</ion-footer>
