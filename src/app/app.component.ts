@@ -35,7 +35,7 @@ import { Settings } from '../providers/providers';
   <ion-nav #content [root]="rootPage"></ion-nav>`
 })
 export class MyApp {
-  rootPage = FirstRunPage;
+  rootPage: any;
 
   @ViewChild(Nav) nav: Nav;
 
@@ -63,7 +63,36 @@ export class MyApp {
     public events: Events,
     public menuCtrl: MenuController,
     private _afAuth: AngularFireAuth,
-  ) {
+  ) 
+  {
+    // we subscribe to the Firebase authState and navigate the user based on the authState value.
+    const authState = this._afAuth.authState.subscribe( user => {
+      if (user) {
+        // we're done with the authState observable at this point.
+        authState.unsubscribe();
+        // now we check the users profile inside the database for the value of 'waitingPage' 
+        //NOTICE: we use template literals (backticks ( ` ` )) in the database call.
+        firebase.database().ref(`users/${this._afAuth.auth.currentUser.uid}/waitingPage`).once('value').then( snapshot => {
+          // extract the value from the snapshot
+          let value = snapshot.val();
+          // console.log('snapshot.val() is : ' + value);
+          // If waitingPage === true, we send the user to the waiting page,
+          // if waitingPage === false, we navigate the user to the home page. I know, no shit sherlock.
+          if (value === true) {
+            this.nav.setRoot('WaitingPage');
+            this.menuCtrl.enable(false);
+          } else {
+            this.nav.setRoot('HomePage');
+            this.menuCtrl.enable(true);    // If we're authorized, we also enable the navigation menu.
+          }
+        });
+      } else {
+        this.nav.setRoot('LandingPage');
+        this.menuCtrl.enable(false);
+        authState.unsubscribe();
+      }
+    });
+
     this.initTranslate();
   }
 
