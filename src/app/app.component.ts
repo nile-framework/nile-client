@@ -14,7 +14,6 @@ import { FirstRunPage } from '../pages/pages';
 import { Settings } from '../providers/providers';
 
 
-
 @Component({
   template: `<ion-menu [content]="content">
     <ion-header>
