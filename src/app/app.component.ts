@@ -93,6 +93,8 @@ export class MyApp {
       }
     });
 
+    this.listenToEvents();
+
     this.initTranslate();
   }
 
@@ -102,6 +104,16 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+    });
+  }
+
+  // we subscribe to a few different events primarily to enable and disable the main navigation menu.
+  listenToEvents() {
+    this.events.subscribe('menu:disable', _ => {
+      this.menuCtrl.enable(false);
+    });
+    this.events.subscribe('menu:enable', _ => {
+      this.menuCtrl.enable(true);
     });
   }
 
