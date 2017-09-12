@@ -13,18 +13,29 @@ import * as firebase from 'firebase/app';
 import { FirstRunPage } from '../pages/pages';
 import { Settings } from '../providers/providers';
 
+export interface PageInterface {
+  title: string;
+  name: string;
+  component: any;
+  icon: string;
+  logsOut?: boolean;
+  index?: number;
+  tabName?: string;
+  tabComponent?: any;
+}
+
 
 @Component({
   template: `<ion-menu [content]="content">
     <ion-header>
       <ion-toolbar>
-        <ion-title>Pages</ion-title>
+        <ion-title>Nile</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content>
       <ion-list>
-        <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        <button menuClose ion-item *ngFor="let p of appPages" (click)="openPage(p)">
           {{p.title}}
         </button>
       </ion-list>
@@ -38,20 +49,36 @@ export class MyApp {
 
   @ViewChild(Nav) nav: Nav;
 
-  pages: any[] = [
-    { title: 'Tutorial', component: 'TutorialPage' },
-    { title: 'Welcome', component: 'WelcomePage' },
-    { title: 'Tabs', component: 'TabsPage' },
-    { title: 'Cards', component: 'CardsPage' },
-    { title: 'Content', component: 'ContentPage' },
-    { title: 'Login', component: 'LoginPage' },
-    { title: 'Signup', component: 'SignupPage' },
-    { title: 'Map', component: 'MapPage' },
-    { title: 'Master Detail', component: 'ListMasterPage' },
-    { title: 'Menu', component: 'MenuPage' },
-    { title: 'Settings', component: 'SettingsPage' },
-    { title: 'Search', component: 'SearchPage' }
-  ]
+    // List of pages that can be navigated to from the left menu
+    // the left menu only works after login
+    // the login page disables the left menu
+    appPages: PageInterface[] = [
+      { title: 'Home', name: 'TabsPage', component: 'TabsPage', tabComponent: 'HomePage', index: 0, icon: 'home' },
+      { title: 'Vendors', name: 'TabsPage', component: 'TabsPage', tabComponent: 'VendorsPage', index: 1, icon: 'basket' },
+      { title: 'Job Sites', name: 'TabsPage', component: 'TabsPage', tabComponent: 'JobSitesPage', index: 2, icon: 'ionic' },
+      { title: 'Settings', name: 'SettingsPage', component: 'SettingsPage', icon: 'information-circle' }
+    ];
+
+    // waitingPages: PageInterface[] = [
+    //   { title: 'Login', name: 'LoginPage', component: LoginPage, icon: 'log-in' },
+    //   { title: 'Support', name: 'SupportPage', component: SupportPage, icon: 'help' },
+    //   { title: 'Account', name: 'SignupPage', component: SignupPage, icon: 'person-add' }
+    // ];
+
+  // pages: any[] = [
+  //   { title: 'Tutorial', component: 'TutorialPage' },
+  //   { title: 'Welcome', component: 'WelcomePage' },
+  //   { title: 'Tabs', component: 'TabsPage' },
+  //   { title: 'Cards', component: 'CardsPage' },
+  //   { title: 'Content', component: 'ContentPage' },
+  //   { title: 'Login', component: 'LoginPage' },
+  //   { title: 'Signup', component: 'SignupPage' },
+  //   { title: 'Map', component: 'MapPage' },
+  //   { title: 'Master Detail', component: 'ListMasterPage' },
+  //   { title: 'Menu', component: 'MenuPage' },
+  //   { title: 'Settings', component: 'SettingsPage' },
+  //   { title: 'Search', component: 'SearchPage' }
+  // ]
 
   constructor(
     private translate: TranslateService,
@@ -81,7 +108,7 @@ export class MyApp {
             this.nav.setRoot('WaitingPage');
             this.menuCtrl.enable(false);
           } else {
-            this.nav.setRoot('HomePage');
+            this.nav.setRoot('TabsPage');
             this.menuCtrl.enable(true);    // If we're authorized, we also enable the navigation menu.
           }
         });
