@@ -1,11 +1,19 @@
 import { Component, ViewChild } from '@angular/core';
+
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+
 import { TranslateService } from '@ngx-translate/core';
-import { Config, Nav, Platform } from 'ionic-angular';
+
+import { Config, Nav, Platform, Events, MenuController } from 'ionic-angular';
+
+import { AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase/app';
 
 import { FirstRunPage } from '../pages/pages';
 import { Settings } from '../providers/providers';
+
+
 
 @Component({
   template: `<ion-menu [content]="content">
@@ -46,7 +54,16 @@ export class MyApp {
     { title: 'Search', component: 'SearchPage' }
   ]
 
-  constructor(private translate: TranslateService, private platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
+  constructor(
+    private translate: TranslateService,
+    private platform: Platform, settings: Settings,
+    private config: Config,
+    private statusBar: StatusBar,
+    private splashScreen: SplashScreen,
+    public events: Events,
+    public menuCtrl: MenuController,
+    private _afAuth: AngularFireAuth,
+  ) {
     this.initTranslate();
   }
 
