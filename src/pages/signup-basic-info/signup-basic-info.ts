@@ -41,4 +41,14 @@ export class SignupBasicInfoPage {
     });
   }
 
+  onContinue() {
+    let basicInfo = {
+      firstName: this.form.value.firstName,
+      lastName: this.form.value.lastName,
+      phoneNumber: this.form.value.phoneNumber
+    }
+
+    this.navCtrl.push('SignupCredentialsPage', {'basicInfo': basicInfo});
+  }
+
 }

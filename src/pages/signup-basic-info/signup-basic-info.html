@@ -27,7 +27,7 @@
         </ion-item>
  
         <div padding>
-          <button ion-button color="primary" block [disabled]="form.invalid">
+          <button ion-button (type)="sumbit" color="primary" block [disabled]="form.invalid">
             {{ 'Continue' | translate }}
           </button>
         </div>
