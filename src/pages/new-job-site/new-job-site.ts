@@ -12,18 +12,35 @@ import { IonicPage, NavController, NavParams, Loading, AlertController, LoadingC
 })
 export class NewJobSitePage {
 
+  form: FormGroup;
+
+  itemSelected: boolean = false;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private _fb: FormBuilder,
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController
-    ) {
+    )
+  {
+    this.buildForm();
   }
 
   ionViewDidLoad() {
     
   }
+
+  buildForm() {
+    this.form = this._fb.group({
+      name: ['', Validators.required],
+      address: ['', Validators.required],
+      accessCode: [''],
+      notes: ['']
+    });
+  }
+
+
 
   cancel() {
     let confirm = this.alertCtrl.create({
