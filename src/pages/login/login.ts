@@ -6,7 +6,6 @@ import { IonicPage, NavController, ToastController, Events, Loading, LoadingCont
 
 import { AuthProvider } from '../../providers/auth/auth';
 import { User } from '../../providers/providers';
-import { MainPage } from '../pages';
 
 @IonicPage()
 @Component({
