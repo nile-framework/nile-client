@@ -43,7 +43,7 @@ export class AuthProvider {
     return this._afAuth.auth.signOut();
   }
 
-  signUpWithEmail(email: string, password: string, phoneNumber: any, firstName: string, lastName: string): firebase.Promise<any> {
+  signUpWithEmail(email: string, password: string, phoneNumber: any, firstName: string, lastName: string, position: string): firebase.Promise<any> {
     return this._afAuth.auth.createUserWithEmailAndPassword(email, password).then( newUser => {
       console.log('new user uid is: ' + newUser.uid);
       this._afDb.object(`users/${newUser.uid}`).set({
@@ -51,7 +51,8 @@ export class AuthProvider {
         lastName: lastName,
         phoneNumber: phoneNumber,
         email: email,
-        waitingPage: true
+        waitingPage: true,
+        position: position
         // 
       });
     });
