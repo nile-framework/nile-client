@@ -35,6 +35,15 @@ export class LoginPage {
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
     })
+
+    this.buildForm();
+  }
+
+  buildForm() {
+    this.form = this._fb.group({
+      email: ['', Validators.email],
+      password: ['', Validators.required]
+    });
   }
 
   // Attempt to login in through our User service
