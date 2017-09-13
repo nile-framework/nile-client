@@ -9,7 +9,7 @@ import { Storage } from '@ionic/storage';
 import * as firebase from 'firebase/app';
 
 import { AuthProvider } from '../../providers/auth/auth';
-import { User } from '../../providers/providers';
+// import { User } from '../../providers/providers';
 
 @IonicPage()
 @Component({
@@ -26,8 +26,9 @@ export class LoginPage {
   private loginErrorString: string;
   private loginSuccessMessage: string;
 
-  constructor(public navCtrl: NavController,
-    public user: User,
+  constructor(
+    public navCtrl: NavController,
+    // public user: User,
     public toastCtrl: ToastController,
     public translateService: TranslateService,
     private _authProvider: AuthProvider,
