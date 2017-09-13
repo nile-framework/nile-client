@@ -160,7 +160,7 @@ export class NewOrderPage {
 
 
   presentDeliveryLocation(data?: any) {
-    let newModal = this._modalCtrl.create('OrderPickupLocationPage', {data: data});
+    let newModal = this._modalCtrl.create('OrderDeliveryLocationPage', {data: data});
     newModal.onDidDismiss( data => {
       if (data) {
         this.deliveryLocation = data;
