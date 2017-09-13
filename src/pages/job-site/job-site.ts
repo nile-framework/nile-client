@@ -46,4 +46,9 @@ export class JobSitePage {
     this.form.disable();
   }
 
+  startOrder() {
+    // start a new order with this job site as the destination.
+    // TODO:
+  }
+
 }
