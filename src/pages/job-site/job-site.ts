@@ -19,7 +19,7 @@ export class JobSitePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad JobSitePage');
+    
   }
 
 }

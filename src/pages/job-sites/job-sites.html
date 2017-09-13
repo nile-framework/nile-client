@@ -18,5 +18,11 @@
 
 
 <ion-content padding>
+  <ion-list>
+    <button ion-item *ngFor="let jobsite of jobSites$ | async" (click)="jobsiteSelected(jobsite)">
+      <h2>{{ jobsite?.name }}</h2>
+      <p>{{ jobsite?.address }}</p>
+    </button>  
+  </ion-list>
 
 </ion-content>
