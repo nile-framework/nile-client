@@ -57,6 +57,7 @@ export class MyApp {
       { title: 'Vendors', name: 'TabsPage', component: 'TabsPage', tabComponent: 'VendorsPage', index: 1, icon: 'basket' },
       { title: 'Job Sites', name: 'TabsPage', component: 'TabsPage', tabComponent: 'JobSitesPage', index: 2, icon: 'ionic' },
       { title: 'Settings', name: 'SettingsPage', component: 'SettingsPage', icon: 'information-circle' }
+      // { title: 'Settings', name: 'SettingsPage', component: 'MapPage', icon: 'information-circle' }
     ];
 
     // waitingPages: PageInterface[] = [
