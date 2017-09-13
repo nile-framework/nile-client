@@ -113,7 +113,8 @@ export class MyApp {
           }
         });
       } else {
-        this.nav.setRoot('LandingPage');
+        // this.nav.setRoot('LandingPage');
+        this.nav.setRoot('SignupForkPage');
         this.menuCtrl.enable(false);
         authState.unsubscribe();
       }
