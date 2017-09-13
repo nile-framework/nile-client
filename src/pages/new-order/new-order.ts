@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-/**
- * Generated class for the NewOrderPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage, NavController, NavParams, Loading, AlertController, LoadingController } from 'ionic-angular';
+
+import { AngularFireDatabase } from 'angularfire2/database';
+
+import { AuthProvider } from '../../providers/auth/auth';
+
+
 
 @IonicPage()
 @Component({
@@ -15,11 +16,43 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class NewOrderPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private _fb: FormBuilder,
+    public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController,
+    private _afDb: AngularFireDatabase,
+    private _auth: AuthProvider
+  ) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad NewOrderPage');
+    
+  }
+
+
+
+  cancel() {
+    let confirm = this.alertCtrl.create({
+      title: 'Cancel this order?',
+      message: 'Are you sure you want to cancel this order? The information you have entered so far will not be saved.',
+      buttons: [
+        {
+          text: 'Nevermind',
+          handler: () => {
+            // do nothing.
+          }
+        },
+        {
+          text: 'Cancel',
+          handler: () => {
+            this.navCtrl.setRoot('HomePage');
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 }
