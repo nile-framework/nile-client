@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Loading, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Loading,
+  LoadingController, ToastController } from 'ionic-angular';
 
 import * as firebase from 'firebase/app';
 
@@ -16,7 +17,8 @@ export class SignupForkPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public alertCtrl: AlertController,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController
   ) {
   }
 
@@ -57,22 +59,53 @@ export class SignupForkPage {
     this.navCtrl.push('')
   }
 
+
   // fetch the data and determine if the access code is correct
   verifyCode(code: string) {    
-    this.checkAccessCode(code).then( snapshot => {
+    this.fetchAccessCode(code).then( snapshot => {
       this.loading.dismiss().then( _ => {
         if (snapshot.val() === null) {
           // incorrect access code
-          let alert = this.alertCtrl.create({
-            title: 'Incorrect Access Code!',
-            subTitle: "Try entering the access code again.",
-            buttons: ['OK']
+          let prompt = this.alertCtrl.create({
+            title: 'Incorrect access code!',
+            message: "Please reenter the access code.",
+            inputs: [
+              {
+                name: 'code',
+                value: code,
+                placeholder: 'enter access code'
+              },
+            ],
+            buttons: [
+              {
+                text: 'Cancel',
+                handler: data => {
+                  console.log('Cancel clicked');
+                }
+              },
+              {
+                text: 'Submit',
+                handler: data => {
+                  let value = data.code;
+                  this.verifyCode(value);
+                }
+              }
+            ]
           });
-          alert.present();
+          prompt.present();
+        } else {
+         if (snapshot.val() === true) {
+          // display toast saying code was correct, allow user to sign up.
+          let toast = this.toastCtrl.create({
+            message: 'Success!',
+            duration: 2500,
+            position: 'middle'
+          });
+          toast.present().then( _ => {
+            // now navigate to the employee sign up.
+          });
+         }
         }
-        console.log('snapshot is : ' + snapshot);
-        console.dir(snapshot)
-        console.log('snapshot value is : ' + snapshot.val());
       })
     }, error => {
       this.loading.dismiss().then( _ => {
@@ -89,14 +122,13 @@ export class SignupForkPage {
     this.loading.present();
   }
 
+
   // TODO: move this function to a service
-  checkAccessCode(code: string): firebase.Promise<any> {
+  fetchAccessCode(code: string): firebase.Promise<any> {
     // check the access code node
     return firebase.database().ref(`companyAccessCode/${code}`).once('value');
     
   }
 
-  displayAccessCodeAlert(previousCode?: string) {
 
-  }
 }
