@@ -26,23 +26,24 @@ export interface PageInterface {
 
 
 @Component({
-  template: `<ion-menu [content]="content">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Nile</ion-title>
-      </ion-toolbar>
-    </ion-header>
+  templateUrl: 'app.html',
+  // template: `<ion-menu [content]="content">
+  //   <ion-header>
+  //     <ion-toolbar>
+  //       <ion-title>Nile</ion-title>
+  //     </ion-toolbar>
+  //   </ion-header>
 
-    <ion-content>
-      <ion-list>
-        <button menuClose ion-item *ngFor="let p of appPages" (click)="openPage(p)">
-          {{p.title}}
-        </button>
-      </ion-list>
-    </ion-content>
+  //   <ion-content>
+  //     <ion-list>
+  //       <button menuClose ion-item *ngFor="let p of appPages" (click)="openPage(p)">
+  //         {{p.title}}
+  //       </button>
+  //     </ion-list>
+  //   </ion-content>
 
-  </ion-menu>
-  <ion-nav #content [root]="rootPage"></ion-nav>`
+  // </ion-menu>
+  // <ion-nav #content [root]="rootPage"></ion-nav>`
 })
 export class MyApp {
   rootPage: any;

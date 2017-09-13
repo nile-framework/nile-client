@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
+
 import { IonicPageModule } from 'ionic-angular';
+
+import { TranslateModule } from '@ngx-translate/core';
+
 import { SignupBasicInfoPage } from './signup-basic-info';
 
 @NgModule({
@@ -8,6 +12,7 @@ import { SignupBasicInfoPage } from './signup-basic-info';
   ],
   imports: [
     IonicPageModule.forChild(SignupBasicInfoPage),
+    TranslateModule.forChild()
   ],
 })
 export class SignupBasicInfoPageModule {}

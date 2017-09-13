@@ -40,7 +40,7 @@ export class AuthProvider {
   }
 
   logout(): firebase.Promise<any> {
-    return this._afAuth.auth.signOut()
+    return this._afAuth.auth.signOut();
   }
 
   signUpWithEmail(email: string, password: string, phoneNumber: any, firstName: string, lastName: string): firebase.Promise<any> {
