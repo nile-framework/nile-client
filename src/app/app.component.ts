@@ -159,9 +159,46 @@ export class MyApp {
     });
   }
 
-  openPage(page) {
-    // Reset the content nav to have just this page
+  openPage(page: PageInterface) {
+    let params = {};
+
+    // the nav component was found using @ViewChild(Nav)
+    // setRoot on the nav to remove previous pages and only have this page 
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+
+    if ( page.index) {
+      params = { tabIndex: page.index};
+    }
+
+    // If we are already on tabs then just change the selected tab
+    // don't setRoot again, this maintains the history stack of the tabs
+    // even if changing them from the menu
+    if (this.nav.getActiveChildNavs().length && page.index != undefined) {
+      this.nav.getActiveChildNavs()[0].select(page.index);
+    } else {
+      // set the root of the nav with params if it's a tab index
+      this.nav.setRoot(page.name, params).catch( (err: any) => {
+        console.log(`Didn't set nav root: ${err}`);
+      });
+    }
+    // this.nav.setRoot(page.component);
+  }
+
+
+  isActive(page: PageInterface) {
+    let childNav = this.nav.getActiveChildNavs()[0];
+
+    // Tabs are a special case becasue they have a navigation stack of their own.
+    if (childNav) {
+      if (childNav.getSelected() && childNav.getSelected().root === page.tabComponent) {
+        return 'primary';
+      }
+      return;
+    }
+
+    if (this.nav.getActive() && this.nav.getActive().name === page.name) {
+      return 'primary';
+    }
+    return;
   }
 }
