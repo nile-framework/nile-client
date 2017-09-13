@@ -21,6 +21,13 @@
         <ion-input type="password" formControlName="password" name="password"></ion-input>
       </ion-item>
 
+      <div text-center>
+        <button ion-button clear (click)="doForgotPassword()">
+          I forgot my password
+        </button>
+      </div>
+
+
       <div padding>
         <button (type)="submit" [disabled]="form.invalid" ion-button color="primary" block>{{ 'Login' | translate }}</button>
       </div>

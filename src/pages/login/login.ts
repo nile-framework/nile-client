@@ -84,4 +84,8 @@ export class LoginPage {
     //   toast.present();
     // });
   }
+
+  doForgotPassword() {
+    
+  }
 }
