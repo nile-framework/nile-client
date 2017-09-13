@@ -72,6 +72,10 @@ export class OrderDeliveryLocationPage implements OnInit {
 
   }
 
+  selectJobSite() {
+    this.navCtrl.push('')
+  }
+
   chooseItem(item: any) {
   //   this.loading = this._loadingCtrl.create();
   //   this.loading.present();
