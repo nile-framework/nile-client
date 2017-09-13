@@ -2,5 +2,7 @@
   "name": "nile",
   "app_id": "4f36efca",
   "type": "ionic-angular",
-  "integrations": {}
+  "integrations": {
+    "cordova": {}
+  }
 }
