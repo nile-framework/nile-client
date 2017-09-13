@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 import { TranslateService } from '@ngx-translate/core';
+
 import { IonicPage, NavController, ToastController, Events, Loading, LoadingController, AlertController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 import * as firebase from 'firebase/app';
 
@@ -32,7 +34,8 @@ export class LoginPage {
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
     private _fb: FormBuilder,
-    private _events: Events
+    private _events: Events,
+    private _storage: Storage
   ) {
 
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
@@ -43,6 +46,14 @@ export class LoginPage {
     })
 
     this.buildForm();
+  }
+
+  ionViewDidLoad() {
+    this._storage.get('loginEmail').then( val => {
+      if (val) {
+        this.form.controls['email'].setValue(val);
+      }
+    });
   }
 
   buildForm() {
@@ -67,6 +78,7 @@ export class LoginPage {
             this.navCtrl.setRoot('TabsPage').then( _ => {
               this._events.publish('menu:enable');
               this.signInSuccessToast();
+              this._storage.set('loginEmail', this.form.value.email);
             });
           }
         })
