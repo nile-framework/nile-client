@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IonicPage, NavController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, ToastController, Events, Loading, LoadingController, AlertController } from 'ionic-angular';
 
 import { AuthProvider } from '../../providers/auth/auth';
 import { User } from '../../providers/providers';
@@ -20,13 +20,19 @@ export class LoginPage {
     password: ''
   };
 
+  public loading: Loading;
+
   // Our translated text strings
   private loginErrorString: string;
 
   constructor(public navCtrl: NavController,
     public user: User,
     public toastCtrl: ToastController,
-    public translateService: TranslateService) {
+    public translateService: TranslateService,
+    private _authProvider: AuthProvider,
+    public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController
+  ) {
 
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
