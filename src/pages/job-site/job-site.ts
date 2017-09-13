@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 
 
 @IonicPage()
@@ -18,7 +18,8 @@ export class JobSitePage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    public toastCtrl: ToastController
   ) {
     this.jobsite = this.navParams.get('jobsite');
 
@@ -49,6 +50,12 @@ export class JobSitePage {
   startOrder() {
     // start a new order with this job site as the destination.
     // TODO:
+    let toast = this.toastCtrl.create({
+      message: 'This functionality is almost there. Esentailly when the user clicks this button they will be starting a new order but with the delivery location already set to this job site.',
+      duration: 5000,
+      position: 'middle'
+    });
+    toast.present();
   }
 
 }
