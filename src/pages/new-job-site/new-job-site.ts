@@ -3,6 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { IonicPage, NavController, NavParams, Loading, AlertController, LoadingController } from 'ionic-angular';
 
+import { AngularFireDatabase } from 'angularfire2/database';
+
+import { AuthProvider } from '../../providers/auth/auth';
+
 declare var goolge: any;
 
 
@@ -14,6 +18,8 @@ declare var goolge: any;
 })
 export class NewJobSitePage implements OnInit {
 
+  companyId;
+
   autocompleteItems: any;
   autocomplete: any;
   acService: google.maps.places.AutocompleteService;
@@ -24,15 +30,23 @@ export class NewJobSitePage implements OnInit {
 
   itemSelected: boolean = false;
 
+  public loading: Loading;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private _fb: FormBuilder,
     public alertCtrl: AlertController,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    private _afDb: AngularFireDatabase,
+    private _auth: AuthProvider
     )
   {
     this.buildForm();
+    // subscribe to the company Id from within the auth provider.
+    this._auth.companyId.subscribe( companyId => {
+      this.companyId = companyId;
+    })
   }
 
   ngOnInit() {
@@ -47,6 +61,34 @@ export class NewJobSitePage implements OnInit {
   initMap() {
     let divMap = (<HTMLInputElement>document.getElementById('map'));
     this.map = new google.maps.Map(divMap, { })
+  }
+
+  saveJobSite() {
+    // add the job site the list of job sites in the databse for the right companies node
+    this._afDb.list(`/jobSites/${this.companyId}`).push({
+      name: this.form.value.name,
+      address: this.form.value.address,
+      notes: this.form.value.notes,
+      accessCode: this.form.value.accessCode,
+      placeId: this.form.value.placeId
+    }).then( snapshot => {
+      this.loading.dismiss().then( _ => {
+        // remember that we are altering the navigation stack for the Job-Sites tab item.
+        this.navCtrl.setRoot('JobSitesPage');
+      });
+    }, error => {
+      this.loading.dismiss().then( _ => {
+        let alert = this.alertCtrl.create({
+          title: error.name,
+          subTitle: error.message,
+          buttons: ['OK']
+        });
+        alert.present();
+      })
+    })
+
+    this.loading = this.loadingCtrl.create();
+    this.loading.present();
   }
 
 
@@ -83,7 +125,8 @@ export class NewJobSitePage implements OnInit {
       name: ['', Validators.required],
       address: ['', Validators.required],
       accessCode: [''],
-      notes: ['']
+      notes: [''],
+      placeId: ['']
     });
   }
 
@@ -122,8 +165,8 @@ export class NewJobSitePage implements OnInit {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         // set address and name
         self.form.controls['name'].setValue(place.name);
-        console.log('place name is: ' + place.name);
         self.form.controls['address'].setValue(place.formatted_address);
+        self.form.controls['placeId'].setValue(place.place_id);
       } else {
         // hmmmm
       }
