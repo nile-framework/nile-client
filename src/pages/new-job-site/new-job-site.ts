@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { IonicPage, NavController, NavParams, Loading, AlertController, LoadingController } from 'ionic-angular';
+
+declare var goolge: any;
 
 
 
@@ -10,7 +12,12 @@ import { IonicPage, NavController, NavParams, Loading, AlertController, LoadingC
   selector: 'page-new-job-site',
   templateUrl: 'new-job-site.html',
 })
-export class NewJobSitePage {
+export class NewJobSitePage implements OnInit {
+
+  autocompleteItems: any;
+  autocomplete: any;
+  acService: google.maps.places.AutocompleteService;
+  placesService: any;
 
   form: FormGroup;
 
@@ -27,8 +34,38 @@ export class NewJobSitePage {
     this.buildForm();
   }
 
-  ionViewDidLoad() {
-    
+  ngOnInit() {
+    this.acService = new google.maps.places.AutocompleteService();
+    this.autocompleteItems = [];
+    this.autocomplete = {
+      query: ''
+    }
+  }
+
+
+  chooseItem(item: any) {
+    // process item
+
+  }
+
+  updateSearch() {
+    if (this.autocomplete.query === '') {
+      this.autocompleteItems = [];
+      return;
+    }
+
+    let self = this;
+    let config = {
+      // types: ['']
+      input: this.autocomplete.query,
+      componentRestrictions: { country: 'US'}
+    }
+    this.acService.getPlacePredictions(config, (predections, status) => {
+      self.autocompleteItems = [];
+      predections.forEach( predection => {
+        self.autocompleteItems.push(predection);
+      });
+    });
   }
 
   buildForm() {

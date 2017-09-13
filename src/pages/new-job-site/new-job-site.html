@@ -31,7 +31,7 @@
   
   
 <ion-content>
-  <form *ngIf="form" [formGroup]="form" (ngSubmit)="createItem()">
+  <!-- <form *ngIf="form" [formGroup]="form" (ngSubmit)="createItem()">
     <ion-list>
       <ion-item>
         <ion-input type="text" placeholder="{{ 'ITEM_NAME_PLACEHOLDER' | translate }}" formControlName="name"></ion-input>
@@ -40,10 +40,23 @@
         <ion-input type="text" placeholder="{{ 'ITEM_ABOUT_PLACEHOLDER' | translate }}" formControlName="about"></ion-input>
       </ion-item>
     </ion-list>
-  </form>
+  </form> -->
 
   <div *ngIf="!itemSelected">
-    
+    <ion-searchbar
+      (ionInput)="updateSearch()"
+      [(ngModel)]="autocomplete.query"
+      [showCancelButton]="true"
+      (ionCancel)="dismiss()"
+      placeholder="Start typing an address or location"
+      >
+    </ion-searchbar>
+    <ion-list>
+      <ion-item *ngFor="let item of autocompleteItems"
+        (click)="chooseItem(item)">
+        {{ item.description }}
+      </ion-item>
+    </ion-list>
   </div>
 
   <div *ngIf="itemSelected">
