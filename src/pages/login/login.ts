@@ -29,7 +29,8 @@ export class LoginPage {
     private _authProvider: AuthProvider,
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private _events: Events
   ) {
 
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
@@ -48,17 +49,39 @@ export class LoginPage {
 
   // Attempt to login in through our User service
   doLogin() {
-    this.user.login(this.account).subscribe((resp) => {
-      this.navCtrl.push(MainPage);
-    }, (err) => {
-      this.navCtrl.push(MainPage);
-      // Unable to log in
-      let toast = this.toastCtrl.create({
-        message: this.loginErrorString,
-        duration: 3000,
-        position: 'top'
+    this._authProvider.loginWithEmail(
+      this.form.value.email, this.form.value.password
+    ).then( user => {
+      this.loading.dismiss( _ => {
+        // navigate to the home page(which is default for the tabs page) and then enable the navigation menu.
+        this.navCtrl.setRoot('TabsPage').then( _ => {
+          this._events.publish('menu:enable');
+        });
       });
-      toast.present();
+    }, error => {
+      this.loading.dismiss().then( _ => {
+        let alert = this.alertCtrl.create({
+          title: error.name,
+          subTitle: error.message,
+          buttons: ['OK']
+        });
+        alert.present();
+      });
     });
+    this.loading = this.loadingCtrl.create();
+    this.loading.present();
+
+    // this.user.login(this.account).subscribe((resp) => {
+    //   this.navCtrl.push(MainPage);
+    // }, (err) => {
+    //   this.navCtrl.push(MainPage);
+    //   // Unable to log in
+    //   let toast = this.toastCtrl.create({
+    //     message: this.loginErrorString,
+    //     duration: 3000,
+    //     position: 'top'
+    //   });
+    //   toast.present();
+    // });
   }
 }
