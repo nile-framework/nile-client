@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
@@ -24,7 +25,6 @@ export class JobSitesPage {
     this._auth.companyId.subscribe( companyId => {
       this.jobSites$ = this._afDb.list(`/jobSites/${companyId}`)
     })
-    
   }
 
   ionViewDidLoad() {
@@ -33,8 +33,7 @@ export class JobSitesPage {
 
   
   jobsiteSelected(jobsite) {
-    console.dir(jobsite);
-    this.navCtrl.push('JobSitePage', jobsite)
+    this.navCtrl.push('JobSitePage', {'jobsite': jobsite})
   }
 
 

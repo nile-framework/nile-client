@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the JobSitePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -15,11 +11,39 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class JobSitePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  jobsite: any;
+
+  form: FormGroup;
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private _fb: FormBuilder
+  ) {
+    this.jobsite = this.navParams.get('jobsite');
+
+    this.buildForm();
   }
 
   ionViewDidLoad() {
     
+  }
+
+  buildForm(): void {
+    this.form = this._fb.group({
+      name: ['', Validators.required],
+      address: ['', Validators.required],
+      notes: [''],
+      accessCode: ['']
+    });
+
+    this.form.controls['name'].setValue(this.jobsite.name);
+    this.form.controls['address'].setValue(this.jobsite.address);
+    this.form.controls['notes'].setValue(this.jobsite.notes);
+    this.form.controls['accessCode'].setValue(this.jobsite.accessCode);
+
+    //now disable the form
+    this.form.disable();
   }
 
 }
