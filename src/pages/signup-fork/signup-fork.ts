@@ -26,6 +26,15 @@ export class SignupForkPage {
 
   }
 
+  about() {
+    let alert = this.alertCtrl.create({
+      title: 'Which option is right for me!',
+      subTitle: 'If your company has already signed up with Nile, they should be able to share an access code with you! If you need to sign up your company, click the second button!',
+      buttons: ['Awesome']
+    });
+    alert.present();
+  }
+
   companyInvite() {
     let prompt = this.alertCtrl.create({
       title: 'Enter access code',

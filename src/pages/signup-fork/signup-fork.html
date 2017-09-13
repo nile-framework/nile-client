@@ -1,3 +1,17 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ 'Signup' | translate }}</ion-title>
+    <ion-buttons (click)="about()" end>
+      <button ion-button icon-right color="royal">
+        About
+        <ion-icon name="information-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
 <ion-content padding>
 
   <button (click)="companyInvite()" class="top-button-padding" ion-button block>My company invited me!</button>

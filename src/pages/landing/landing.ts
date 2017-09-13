@@ -17,7 +17,7 @@ export class LandingPage {
   }
 
   signUp() {
-    this.navCtrl.push('SignupPage');
+    this.navCtrl.push('SignupForkPage');
   }
 
 }
