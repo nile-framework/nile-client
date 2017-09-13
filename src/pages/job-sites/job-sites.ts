@@ -34,7 +34,7 @@ export class JobSitesPage {
   
   jobsiteSelected(jobsite) {
     console.dir(jobsite);
-    this.navCtrl.push('JobSitePage', jobsite)
+    this.navCtrl.push('JobSitePage', {'jobsite': jobsite})
   }
 
 
