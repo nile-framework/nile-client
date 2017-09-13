@@ -4,6 +4,8 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { IonicPage, NavController, ToastController, Events, Loading, LoadingController, AlertController } from 'ionic-angular';
 
+import * as firebase from 'firebase/app';
+
 import { AuthProvider } from '../../providers/auth/auth';
 import { User } from '../../providers/providers';
 
@@ -20,6 +22,7 @@ export class LoginPage {
 
   // Our translated text strings
   private loginErrorString: string;
+  private loginSuccessMessage: string;
 
   constructor(public navCtrl: NavController,
     public user: User,
@@ -34,6 +37,9 @@ export class LoginPage {
 
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
+    })
+    this.translateService.get('Successfully signed in').subscribe( value => {
+      this.loginSuccessMessage = value;
     })
 
     this.buildForm();
@@ -51,11 +57,19 @@ export class LoginPage {
     this._authProvider.loginWithEmail(
       this.form.value.email, this.form.value.password
     ).then( user => {
-      this.loading.dismiss( _ => {
-        // navigate to the home page(which is default for the tabs page) and then enable the navigation menu.
-        this.navCtrl.setRoot('TabsPage').then( _ => {
-          this._events.publish('menu:enable');
-        });
+      firebase.database().ref(`users/${user.uid}/waitingPage`).once('value').then( snapshot => {
+        // extract the value
+        this.loading.dismiss().then( _ => {
+          let value = snapshot.val();
+          if (value === true) {
+            this.navCtrl.setRoot('WaitingPage');
+          } else {
+            this.navCtrl.setRoot('TabsPage').then( _ => {
+              this._events.publish('menu:enable');
+              this.signInSuccessToast();
+            });
+          }
+        })
       });
     }, error => {
       this.loading.dismiss().then( _ => {
@@ -86,5 +100,16 @@ export class LoginPage {
 
   doForgotPassword() {
     
+  }
+
+
+  // sign in success toast
+  signInSuccessToast(): void {
+    let toast = this.toastCtrl.create({
+      message: this.loginSuccessMessage,
+      duration: 2500,
+      position: 'middle'
+    });
+    toast.present();
   }
 }
