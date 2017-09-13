@@ -18,6 +18,7 @@ export class NewJobSitePage implements OnInit {
   autocomplete: any;
   acService: google.maps.places.AutocompleteService;
   placesService: any;
+  map: any;
 
   form: FormGroup;
 
@@ -45,7 +46,9 @@ export class NewJobSitePage implements OnInit {
 
   chooseItem(item: any) {
     // process item
-
+    // 1. Hide the searchbar and display the job site creation form.
+    this.itemSelected = true;
+    // 2. 
   }
 
   updateSearch() {
@@ -99,6 +102,25 @@ export class NewJobSitePage implements OnInit {
       ]
     });
     confirm.present();
+  }
+
+  private getPlaceDetails(place_id: string): void {
+    var self = this;
+    var request = {
+      place_id: place_id
+    }
+
+    this.placesService = new google.maps.places.PlacesService(this.map);
+    this.placesService.getPlaceDetails(request, callback);
+    function callback(place, status) {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        // set address and name
+        self.form.controls['name'].setValue(place.name);
+        self.form.controls['address'].setValue(place.address);
+      } else {
+        // hmmmm
+      }
+    }
   }
 
 }
