@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+
 import { TranslateService } from '@ngx-translate/core';
 import { IonicPage, NavController, ToastController, Events, Loading, LoadingController, AlertController } from 'ionic-angular';
 
@@ -12,13 +14,8 @@ import { MainPage } from '../pages';
   templateUrl: 'login.html'
 })
 export class LoginPage {
-  // The account fields for the login form.
-  // If you're using the username field with or without email, make
-  // sure to add it to the type
-  account: { email: string, password: string } = {
-    email: '',
-    password: ''
-  };
+
+  form: FormGroup;
 
   public loading: Loading;
 
@@ -31,7 +28,8 @@ export class LoginPage {
     public translateService: TranslateService,
     private _authProvider: AuthProvider,
     public alertCtrl: AlertController,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    private _fb: FormBuilder
   ) {
 
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
