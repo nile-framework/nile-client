@@ -12,12 +12,17 @@
   <button ion-button full (click)="selectJobSite()">
     Select a job site as a delivery location
   </button>
-  <ion-searchbar 
-  [(ngModel)]="autocomplete.query" 
-  [showCancelButton]="true" 
-  (ionInput)="updateSearch()"
-  placeholder="Search address or location">
-</ion-searchbar>
+
+
+  <p text-center class="orMargin">or</p>
+
+  <!-- <ion-searchbar 
+    [(ngModel)]="autocomplete.query"  
+    [showCancelButton]="true" 
+    (ionInput)="updateSearch()"
+  placeholder="Search address or location"> -->
+  <ion-searchbar placeholder="Search address or location"></ion-searchbar>
+<!-- </ion-searchbar> -->
 <ion-list>
   <ion-item *ngFor="let item of autocompleteItems" 
       (click)="chooseItem(item)">
