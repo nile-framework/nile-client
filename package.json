@@ -30,6 +30,7 @@
         "@ngx-translate/http-loader": "0.0.3",
         "angularfire2": "^4.0.0-rc.2",
         "cordova-android": "^6.2.3",
+        "cordova-ios": "^4.4.0",
         "cordova-plugin-add-swift-support": "^1.7.0",
         "cordova-plugin-console": "^1.0.5",
         "cordova-plugin-device": "^1.1.4",
@@ -66,7 +67,8 @@
             "ionic-plugin-keyboard": {}
         },
         "platforms": [
-            "android"
+            "android",
+            "ios"
         ]
     }
 }
