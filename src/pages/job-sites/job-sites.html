@@ -5,10 +5,10 @@
     <button ion-button menuToggle icon-only>
       <ion-icon name='menu'></ion-icon>
     </button>
-    <ion-title>Job-Sites</ion-title>
+    <ion-title>Jobsites</ion-title>
     <ion-buttons (click)="newJobSite()" end>
       <button ion-button icon-right color="royal">
-        New Job-Site
+        <!-- New Job-Site -->
         <ion-icon name="add"></ion-icon>
       </button>
     </ion-buttons>
@@ -19,7 +19,7 @@
 
 <ion-content padding>
   <ion-list>
-    <button ion-item *ngFor="let jobsite of jobSites$ | async" (click)="jobsiteSelected(jobsite)">
+    <button ion-item *ngFor="let jobsite of jobsites$ | async" (click)="jobsiteSelected(jobsite)">
       <h2>{{ jobsite?.name }}</h2>
       <p>{{ jobsite?.address }}</p>
     </button>  

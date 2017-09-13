@@ -1,0 +1,126 @@
+<ion-header>
+    
+  <ion-navbar>
+    <ion-title>{{ 'New order' | translate }}</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="cancel()">
+        <span color="primary" showWhen="ios">
+          {{ 'Cancel' | translate }}
+        </span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+    <!-- <ion-buttons end>
+      <button ion-button (click)="done()" [disabled]="!isReadyToSave" strong>
+        <span color="primary" showWhen="ios">
+          {{ 'Preview' | translate }}
+        </span>
+        <ion-icon name="md-checkmark" showWhen="core,android,windows"></ion-icon>
+      </button>
+    </ion-buttons> -->
+  </ion-navbar>
+
+</ion-header>
+    
+
+<ion-content padding>
+  <form [formGroup]="form" novalidate>
+      
+    <ion-item-group>
+      <ion-item-divider color="light"> When </ion-item-divider>
+  <!-- WHEN -->
+    <ion-list formControlName="when" radio-group>  
+      <ion-item>
+        <ion-label>ASAP (as soon as possible)</ion-label>
+        <ion-radio value="asap"></ion-radio>
+      </ion-item>
+    
+      <ion-item>
+        <ion-label>Schedule</ion-label>
+        <ion-radio value="schedule"></ion-radio>      
+      </ion-item>
+      <ion-list>
+        <ion-item *ngIf="form.value.when === 'schedule'">
+          <ion-label>Date</ion-label>
+          <ion-datetime
+            displayFormat=""
+            formControlName="time"
+          ></ion-datetime>
+        </ion-item>
+      </ion-list>
+    </ion-list>
+
+    </ion-item-group>
+
+    <!-- PICKUP LOCATION -->
+    <ion-item-group>
+      <ion-item-divider color="light">Pickup Location
+        <ion-icon (click)="editPickupLocation()" *ngIf="pickupLocationPicked" name="create" item-end></ion-icon>
+      </ion-item-divider>
+      <div *ngIf="showVendorLocation">
+        <button *ngIf="!pickupLocationPicked" (click)="addPickupLocation()" ion-item>
+          <ion-icon name="add" item-start></ion-icon>
+            pick-up location
+        </button>
+        <div *ngIf="pickupLocationPicked">
+          <ion-item>
+            <ion-label floating>Address</ion-label>
+            <ion-input readonly type="text" formControlName="pickupLocation"></ion-input>
+          </ion-item>
+        </div>
+      </div>
+      
+
+    </ion-item-group>
+
+    <!-- MATERIALS -->
+    <ion-item-group>
+      <ion-item-divider color="light">
+        Materials
+      </ion-item-divider>
+      <ion-list *ngIf="showMaterials" formControlName="materials" radio-group>     
+        <ion-item>
+          <ion-label>Call or email the order in.</ion-label>
+          <ion-radio value="noMats"></ion-radio>
+        </ion-item>
+      
+        <ion-item>
+          <ion-label>Add a Materials List</ion-label>
+          <ion-radio value="mats"></ion-radio>
+        </ion-item>
+      </ion-list>
+    </ion-item-group>
+
+
+    <!-- DELIVERY LOCATION -->
+    <ion-item-group>
+      <ion-item-divider color="light">
+        Delivery Location
+        <ion-icon (click)="editDeliveryLocation()" *ngIf="deliveryLocationPicked" name="create" item-end></ion-icon>
+      </ion-item-divider>
+      <div *ngIf="showJobSite">
+        <button *ngIf="!deliveryLocationPicked" (click)="addDeliveryLocation()" ion-item>
+          <ion-icon name="add" item-start></ion-icon>
+          delivery location
+        </button>
+        <div *ngIf="deliveryLocationPicked">
+          <ion-item>
+            <ion-label floating>Address</ion-label>
+            <ion-input readonly type="text" formControlName="deliveryLocation"></ion-input>
+          </ion-item>
+        </div>
+      </div>
+    
+    </ion-item-group>
+
+    <!-- <ion-item-group>
+      <ion-item-divider color="light">
+        Materials
+      </ion-item-divider>
+    </ion-item-group> -->
+
+    <button ion-button full (click)="onSubmit()" [disabled]="!form.valid">Submit order</button>
+
+  </form>
+
+</ion-content>

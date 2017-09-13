@@ -14,7 +14,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 })
 export class JobSitesPage {
 
-  jobSites$: FirebaseListObservable<any>;
+  jobsites$: FirebaseListObservable<any>;
 
   constructor(
     public navCtrl: NavController,
@@ -23,7 +23,7 @@ export class JobSitesPage {
     private _afDb: AngularFireDatabase
   ) {
     this._auth.companyId.subscribe( companyId => {
-      this.jobSites$ = this._afDb.list(`/jobSites/${companyId}`)
+      this.jobsites$ = this._afDb.list(`/jobSites/${companyId}`)
     })
   }
 

@@ -1,0 +1,58 @@
+
+<ion-header>
+    
+  <ion-navbar>
+    <ion-title>Order pickup location</ion-title>
+    <ion-buttons end>
+      <button (click)="cancel()" ion-button icon-right color="royal">
+        Cancel
+        <ion-icon name="close-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-searchbar 
+    [(ngModel)]="autocomplete.query" 
+    [showCancelButton]="true" 
+    (ionInput)="updateSearch()"
+    placeholder="Search address or location">
+  </ion-searchbar>
+  <ion-list>
+    <ion-item *ngFor="let item of autocompleteItems" 
+        (click)="chooseItem(item)">
+        {{ item.description }}
+    </ion-item>
+  </ion-list>
+  <!-- <button (click)="selectVendor()" ion-button icon-left>
+      <ion-icon name="plus"></ion-icon>
+      Select a Vendor
+  </button> -->
+
+  <div id="map"></div>
+
+  <ion-list *ngIf="address.set==true">
+    <form [formGroup]="pickupLocationForm" (submit)="onSubmit()" novalidate>
+      <ion-item>
+        <ion-label floating>Address</ion-label>
+        <ion-input formControlName="address" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Notes</ion-label>
+        <ion-textarea formControlName="notes" type="text"></ion-textarea>
+      </ion-item>
+
+      <div class="text-center">
+        <button ion-button full>Continue</button>
+      </div>
+    </form>
+  </ion-list>
+
+  
+
+  
+
+</ion-content>

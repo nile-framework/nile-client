@@ -30,10 +30,10 @@ export class TabsPage {
 
     this.mySelectedIndex = navParams.data.tabIndex || 0;
 
-    translateService.get(['Home', 'Vendors', 'Job-Sites']).subscribe(values => {
+    translateService.get(['Home', 'Vendors', 'Jobsites']).subscribe(values => {
       this.tab1Title = values['Home'];
       this.tab2Title = values['Vendors'];
-      this.tab3Title = values['Job-Sites'];
+      this.tab3Title = values['Jobsites'];
     });
   }
 }
