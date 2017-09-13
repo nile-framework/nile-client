@@ -33,13 +33,13 @@ export class NewJobSitePage {
         {
           text: 'Nevermind',
           handler: () => {
-            // console.log('Disagree clicked');
+            // do nothing.
           }
         },
         {
           text: 'Cancel',
           handler: () => {
-            // console.log('Agree clicked');
+            this.navCtrl.setRoot('JobSitesPage');
           }
         }
       ]
