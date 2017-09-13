@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { IonicPage, NavController, NavParams, Loading, AlertController, LoadingController } from 'ionic-angular';
@@ -17,8 +17,8 @@ export class NewJobSitePage implements OnInit {
   autocompleteItems: any;
   autocomplete: any;
   acService: google.maps.places.AutocompleteService;
-  placesService: any;
-  map: any;
+  placesService: google.maps.places.PlacesService;
+  @ViewChild("emptyDiv") map: any;
 
   form: FormGroup;
 
@@ -41,6 +41,12 @@ export class NewJobSitePage implements OnInit {
     this.autocomplete = {
       query: ''
     }
+    this.initMap();
+  }
+
+  initMap() {
+    let divMap = (<HTMLInputElement>document.getElementById('map'));
+    this.map = new google.maps.Map(divMap, { })
   }
 
 
@@ -48,7 +54,8 @@ export class NewJobSitePage implements OnInit {
     // process item
     // 1. Hide the searchbar and display the job site creation form.
     this.itemSelected = true;
-    // 2. 
+    // 2. fetch the place details and insert them into the form.
+    this.getPlaceDetails(item.place_id)
   }
 
   updateSearch() {
@@ -107,16 +114,16 @@ export class NewJobSitePage implements OnInit {
   private getPlaceDetails(place_id: string): void {
     var self = this;
     var request = {
-      place_id: place_id
+      placeId: place_id
     }
-
     this.placesService = new google.maps.places.PlacesService(this.map);
-    this.placesService.getPlaceDetails(request, callback);
-    function callback(place, status) {
+    this.placesService.getDetails(request, callback);
+    function callback(place: google.maps.places.PlaceResult, status) {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         // set address and name
         self.form.controls['name'].setValue(place.name);
-        self.form.controls['address'].setValue(place.address);
+        console.log('place name is: ' + place.name);
+        self.form.controls['address'].setValue(place.formatted_address);
       } else {
         // hmmmm
       }

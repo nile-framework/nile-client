@@ -60,6 +60,30 @@
   </div>
 
   <div *ngIf="itemSelected">
+    <form [formGroup]="form" novalidate>
+      <ion-list>
+        <ion-item>
+          <ion-label floating>{{ 'Job Site Name' | translate }}</ion-label>
+          <ion-input formControlName="name" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>{{ 'Address' | translate }}</ion-label>
+          <ion-input type="text" formControlName="address"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>{{ 'Access code' | translate }}</ion-label>
+          <ion-input type="text" formControlName="accessCode"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-textarea type="text" placeholder="{{'ex: Beware of dog!' | translate }}" formControlName="notes"></ion-textarea>
+        </ion-item>
+      </ion-list>
+    </form>
 
   </div>
+
+  <!-- empty div for google maps api -->
+  <div id="map"></div>
+  <!-- <ion-list> -->
+
 </ion-content>
