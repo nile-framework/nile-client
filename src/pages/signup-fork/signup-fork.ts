@@ -56,7 +56,7 @@ export class SignupForkPage {
   }
 
   registerCompany() {
-    this.navCtrl.push('')
+    this.navCtrl.push('SignupBasicInfoPage');
   }
 
 
