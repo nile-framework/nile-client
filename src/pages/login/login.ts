@@ -69,21 +69,25 @@ export class LoginPage {
     this._authProvider.loginWithEmail(
       this.form.value.email, this.form.value.password
     ).then( user => {
-      firebase.database().ref(`users/${user.uid}/waitingPage`).once('value').then( snapshot => {
-        // extract the value
-        this.loading.dismiss().then( _ => {
-          let value = snapshot.val();
-          if (value === true) {
-            this.navCtrl.setRoot('WaitingPage');
-          } else {
-            this.navCtrl.setRoot('TabsPage').then( _ => {
-              this._events.publish('menu:enable');
-              this.signInSuccessToast();
-              this._storage.set('loginEmail', this.form.value.email);
-            });
-          }
-        })
+      this.loading.dismiss().then( _ => {
+        this.navCtrl.setRoot('TabsPage');
+        this._events.publish('menu:enable');
       });
+      // firebase.database().ref(`users/${user.uid}/waitingPage`).once('value').then( snapshot => {
+      //   // extract the value
+      //   this.loading.dismiss().then( _ => {
+      //     let value = snapshot.val();
+      //     if (value === true) {
+      //       this.navCtrl.setRoot('WaitingPage');
+      //     } else {
+      //       this.navCtrl.setRoot('TabsPage').then( _ => {
+      //         this._events.publish('menu:enable');
+      //         this.signInSuccessToast();
+      //         this._storage.set('loginEmail', this.form.value.email);
+      //       });
+      //     }
+      //   })
+      // });
     }, error => {
       this.loading.dismiss().then( _ => {
         let alert = this.alertCtrl.create({

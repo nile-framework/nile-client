@@ -108,7 +108,7 @@ export class MyApp {
         firebase.database().ref(`users/${this._afAuth.auth.currentUser.uid}/company/position`).once('value').then( snapshot => {
           // extract the value from the snapshot
           let value = snapshot.val();
-          console.log('snapshot.val() is : ' + value);
+          // console.log('snapshot.val() is : ' + value);
           // If value === 'owner' then 
           // if waitingPage === false, we navigate the user to the home page. I know, no shit sherlock.
           if (value === 'owner') {
@@ -126,7 +126,7 @@ export class MyApp {
         this.nav.setRoot('LandingPage');
         // this.nav.setRoot('SignupForkPage');
         this.menuCtrl.enable(false);
-        authState.unsubscribe();
+        // authState.unsubscribe();
       }
     });
 
