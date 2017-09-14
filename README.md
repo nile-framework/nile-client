@@ -47,7 +47,9 @@ In a browser window, navigate to http://localhost:8100/
 
 
 <br><br><br>
+<br><br><br>
 The rest of the document was from default README, it will be changed/removed eventually.
+<br><br><br>
 <br><br><br>
 
 
