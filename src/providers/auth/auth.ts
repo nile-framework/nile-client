@@ -1,4 +1,3 @@
-
 // This service providers contains authentication functionality for firebase.
 
 
@@ -14,9 +13,14 @@ import * as firebase from 'firebase/app';
 @Injectable()
 export class AuthProvider {
 
-  // CompanyPushId OBSERVABLE
+  // CompanyPushId OBSERVABLE$
   private _companyId = new ReplaySubject<any>(1);
   public companyId = this._companyId.asObservable();
+
+  // authorization state OBSERVABLE$
+  private _authState = new ReplaySubject<any>(1);
+  public authState = this._authState.asObservable();
+
 
   constructor(
     private _afAuth: AngularFireAuth,
@@ -24,11 +28,17 @@ export class AuthProvider {
   ) {
     const authState = this._afAuth.authState.subscribe( user => {
       if (user) {
-        firebase.database().ref(`users/${this._afAuth.auth.currentUser.uid}/company`)
+        firebase.database().ref(`users/${this._afAuth.auth.currentUser.uid}/company/id`)
         .once('value').then( snapshot => {
-          // console.log('companyId is: ' + snapshot.val());
-          this._companyId.next(snapshot.val());
-        })
+          let companyId = snapshot.val();
+
+          this._companyId.next(companyId);
+          // determine authorization state
+          this._afDb.object(`companies/${companyId}/authState`, {preserveSnapshot: true}).subscribe( snapshot => {
+            let value = snapshot.val();
+            this._authState.next(value);
+          });
+        });
       } else {
         // console.log('user is false');
       }
@@ -59,11 +69,11 @@ export class AuthProvider {
   }
 
 
-  loginWithEmail(email: string, password: string):firebase.Promise<any> {
+  loginWithEmail(email: string, password: string): firebase.Promise<any> {
     return this._afAuth.auth.signInWithEmailAndPassword(email, password)
   }
 
-  resetPassword(email: string):firebase.Promise<any> {
+  resetPassword(email: string): firebase.Promise<any> {
     return this._afAuth.auth.sendPasswordResetEmail(email);
   }
 

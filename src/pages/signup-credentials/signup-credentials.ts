@@ -82,7 +82,8 @@ export class SignupCredentialsPage {
             this._afDb.list(`/companies`).push({
               owner: {
                 [this._afAuth.auth.currentUser.uid]: true
-              }
+              },
+              authState: 'initialSetup'
             }).then( snapshot => {
               this._afDb.object(`users/${this._afAuth.auth.currentUser.uid}`).update({
                 company: {
