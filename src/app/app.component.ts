@@ -53,13 +53,23 @@ export class MyApp {
     // List of pages that can be navigated to from the left menu
     // the left menu only works after login
     // the login page disables the left menu
-    appPages: PageInterface[] = [
+    adminPages: PageInterface[] = [
+      { title: 'Home', name: 'TabsPage', component: 'TabsPage', tabComponent: 'HomePage', index: 0, icon: 'home' },
+      { title: 'Vendors', name: 'TabsPage', component: 'TabsPage', tabComponent: 'VendorsPage', index: 1, icon: 'basket' },
+      { title: 'Job Sites', name: 'TabsPage', component: 'TabsPage', tabComponent: 'JobSitesPage', index: 2, icon: 'ionic' }, 
+      { title: 'Employees', name: 'EmployeesPage', component: 'EmployeesPage', icon: 'people' },
+      { title: 'Settings', name: 'SettingsPage', component: 'SettingsPage', icon: 'information-circle' },
+      // { title: 'Settings', name: 'SettingsPage', component: 'MapPage', icon: 'information-circle' }
+    ];
+
+    employeePages: PageInterface[] = [
       { title: 'Home', name: 'TabsPage', component: 'TabsPage', tabComponent: 'HomePage', index: 0, icon: 'home' },
       { title: 'Vendors', name: 'TabsPage', component: 'TabsPage', tabComponent: 'VendorsPage', index: 1, icon: 'basket' },
       { title: 'Job Sites', name: 'TabsPage', component: 'TabsPage', tabComponent: 'JobSitesPage', index: 2, icon: 'ionic' },
-      { title: 'Settings', name: 'SettingsPage', component: 'SettingsPage', icon: 'information-circle' }
-      // { title: 'Settings', name: 'SettingsPage', component: 'MapPage', icon: 'information-circle' }
-    ];
+      { title: 'Settings', name: 'SettingsPage', component: 'SettingsPage', icon: 'information-circle' },
+    ]
+
+
 
     // waitingPages: PageInterface[] = [
     //   { title: 'Login', name: 'LoginPage', component: LoginPage, icon: 'log-in' },
