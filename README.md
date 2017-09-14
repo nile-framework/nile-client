@@ -30,6 +30,7 @@ While not necessary for this specific project, you should also consider having
 1. Clone or download this repository.
 ⋅⋅⋅ ```bash
        git clone https://github.com/nile-framework/nile-client.git
+     ```
 ⋅⋅⋅ 
  
 
