@@ -46,9 +46,9 @@ Only start here if you have recent a recent release of the prerequisites.
 In a browser window, navigate to http://localhost:8100/
 
 
-
+<br><br><br>
 The rest of the document was from default README, it will be changed/removed eventually.
-
+<br><br><br>
 
 
 ## Pages
