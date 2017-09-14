@@ -23,6 +23,7 @@ export class HomePage {
   user: any;
 
   initialInfoForm: FormGroup;
+  initialInfoFormSubmitted: boolean = false;
   public authorized;
 
   // if the users initial company information hasn't been submitted yet, display a form asking for the information.
@@ -94,7 +95,13 @@ export class HomePage {
       email: this.initialInfoForm.value.email,
       phoneNumber: this.initialInfoForm.value.phoneNumber,
       estimatedDeliveryPerWeek: this.initialInfoForm.value.deliveriesPerWeek
-    });
+    }).then( snapshot => {
+      this.loading.dismiss();
+      this.initialInfoFormSubmitted = true;
+    })
+
+    this.loading = this.loadingCtrl.create();
+    this.loading.present();
   }
 
 }

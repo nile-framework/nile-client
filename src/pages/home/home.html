@@ -18,7 +18,7 @@
   <div *ngIf="displayInitialCompanyForm" style="margin-top:5vh;">
     <h3 text-center style="color:#ef9a07">We will contact you shortly at {{ user?.phoneNumber}}</h3>
     <form [formGroup]="initialInfoForm" (submit)="onSubmitInitialInfoForm()" novalidate>
-      <ion-card >
+      <ion-card *ngIf="!initialInfoFormSubmitted">
         <ion-card-title style="margin-right: 2vw; margin-left: 1vw">
          <p>In the meantime, providing us with some basic information about your company will help speed the process along.</p>
         </ion-card-title>
@@ -56,6 +56,14 @@
           
         </ion-card-content>
       </ion-card>
+      <div *ngIf="initialInfoFormSubmitted">
+        <p text-center>
+          Thanks! Feel free to fill out any other information below:
+        </p>
+        <p>
+          More questions can go here in a way that the user can easiy answer or dismiss.
+        </p>
+      </div>
     </form>
 
   </div>
