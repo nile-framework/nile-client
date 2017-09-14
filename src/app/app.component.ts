@@ -103,10 +103,10 @@ export class MyApp {
         authState.unsubscribe();
         // now we check the users profile inside the database for the value of 'waitingPage' 
         //NOTICE: we use template literals (backticks ( ` ` )) in the database call.
-        firebase.database().ref(`users/${this._afAuth.auth.currentUser.uid}/waitingPage`).once('value').then( snapshot => {
+        firebase.database().ref(`users/${this._afAuth.auth.currentUser.uid}/company/position`).once('value').then( snapshot => {
           // extract the value from the snapshot
           let value = snapshot.val();
-          // console.log('snapshot.val() is : ' + value);
+          console.log('snapshot.val() is : ' + value);
           // If waitingPage === true, we send the user to the waiting page,
           // if waitingPage === false, we navigate the user to the home page. I know, no shit sherlock.
           if (value === true) {
@@ -147,6 +147,15 @@ export class MyApp {
     this.events.subscribe('menu:enable', _ => {
       this.menuCtrl.enable(true);
     });
+  }
+
+  // assign the correct navigation menu based off of the users 'position'
+  assignNavMenu(position: string) {
+    
+  }
+
+  enableMenu() {
+
   }
 
   initTranslate() {
