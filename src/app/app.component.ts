@@ -112,8 +112,8 @@ export class MyApp {
           // If value === 'owner' then 
           // if waitingPage === false, we navigate the user to the home page. I know, no shit sherlock.
           if (value === 'owner') {
-            this.nav.setRoot('TabsPage');
             this.position = value;
+            this.nav.setRoot('TabsPage');
             this.enableMenu(true);
           } else {
             // the user is an employee, set the appropriate nav menu.
