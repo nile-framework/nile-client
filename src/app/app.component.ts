@@ -48,6 +48,8 @@ export interface PageInterface {
 export class MyApp {
   rootPage: any;
 
+  position: any;
+
   @ViewChild(Nav) nav: Nav;
 
     // List of pages that can be navigated to from the left menu
@@ -107,14 +109,17 @@ export class MyApp {
           // extract the value from the snapshot
           let value = snapshot.val();
           console.log('snapshot.val() is : ' + value);
-          // If waitingPage === true, we send the user to the waiting page,
+          // If value === 'owner' then 
           // if waitingPage === false, we navigate the user to the home page. I know, no shit sherlock.
-          if (value === true) {
-            this.nav.setRoot('WaitingPage');
-            this.menuCtrl.enable(false);
-          } else {
+          if (value === 'owner') {
             this.nav.setRoot('TabsPage');
-            this.menuCtrl.enable(true);    // If we're authorized, we also enable the navigation menu.
+            this.position = value;
+            this.enableMenu(true);
+          } else {
+            // the user is an employee, set the appropriate nav menu.
+            this.position = value;
+            this.nav.setRoot('TabsPage');
+            this.enableMenu(true);
           }
         });
       } else {
@@ -139,24 +144,36 @@ export class MyApp {
     });
   }
 
+
   // we subscribe to a few different events primarily to enable and disable the main navigation menu.
   listenToEvents() {
     this.events.subscribe('menu:disable', _ => {
       this.menuCtrl.enable(false);
+      this.enableMenu(false);
     });
     this.events.subscribe('menu:enable', _ => {
-      this.menuCtrl.enable(true);
+      this.enableMenu(true);
     });
   }
 
-  // assign the correct navigation menu based off of the users 'position'
-  assignNavMenu(position: string) {
-    
+
+  // enable or disable the apporpriate menu.
+  enableMenu(enable: boolean) {
+    switch(this.position){
+      case 'owner': {
+        this.menuCtrl.enable(enable, 'adminMenu')
+        break;
+      }
+      case 'employee': {
+        this.menuCtrl.enable(enable, 'employeeMenu')
+        break;
+      }
+      default: {
+        break;
+      }
+    }
   }
 
-  enableMenu() {
-
-  }
 
   initTranslate() {
     // Set the default language for translation strings, and the current language.
@@ -172,6 +189,7 @@ export class MyApp {
       this.config.set('ios', 'backButtonText', values.BACK_BUTTON_TEXT);
     });
   }
+
 
   openPage(page: PageInterface) {
     let params = {};
