@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Loading, AlertController, LoadingController } from 'ionic-angular';
 
-import * as firebase from 'firebase/app';
+// import * as firebase from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 import { AuthProvider } from '../../providers/auth/auth';
 
@@ -16,6 +17,11 @@ import { AuthProvider } from '../../providers/auth/auth';
 })
 export class HomePage {
 
+  public loading: Loading;
+
+  // TODO: we should make a user interface
+  user: any;
+
   initialInfoForm: FormGroup;
   public authorized;
 
@@ -26,9 +32,12 @@ export class HomePage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController,
     private _authProvider: AuthProvider,
     private _fb: FormBuilder,
-    private _afAuth: AngularFireAuth
+    private _afAuth: AngularFireAuth,
+    private _afDb: AngularFireDatabase
   ) {
     this._authProvider.authState.subscribe( authState => {
       if ( authState === true){
@@ -37,6 +46,12 @@ export class HomePage {
         this.authorized = false;
       }
     });
+    
+    this._authProvider.user.subscribe( user => {
+      this.user = user;
+      console.log('user is ' + user);
+      console.dir(user);
+    })
     
     this._authProvider.comPosition.subscribe( comPosition => {
       if (comPosition === 'owner') {
@@ -60,10 +75,11 @@ export class HomePage {
   buildInitialInfoForm() {
     this.initialInfoForm = this._fb.group({
       name: ['', Validators.required],
-      email: ['', Validators.email],
-      phoneNumber: ['', Validators.minLength(10)],
+      email: [this.user.email, Validators.email],
+      phoneNumber: [this.user.phoneNumber, Validators.minLength(10)],
       deliveriesPerWeek: ['', Validators.required]
     })
+    
 
     
   }
@@ -73,7 +89,12 @@ export class HomePage {
   }
 
   onSubmitInitialInfoForm() {
-    
+    this._afDb.object(`companies/${this.user.company.id}`).update({
+      name: this.initialInfoForm.value.name,
+      email: this.initialInfoForm.value.email,
+      phoneNumber: this.initialInfoForm.value.phoneNumber,
+      estimatedDeliveryPerWeek: this.initialInfoForm.value.deliveriesPerWeek
+    });
   }
 
 }

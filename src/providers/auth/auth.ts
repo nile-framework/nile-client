@@ -4,6 +4,7 @@
 import { Injectable } from '@angular/core';
 
 import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Observable } from 'rxjs/Observable';
 
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -25,6 +26,11 @@ export class AuthProvider {
   private _comPosition = new ReplaySubject<any>(1);
   public comPosition = this._comPosition.asObservable();
 
+  // the users information as an observable which that components can subscribe to.
+  private _user: ReplaySubject<any> = new ReplaySubject<any>(1);
+  public user: Observable<any> = this._user.asObservable();
+
+
 
   constructor(
     private _afAuth: AngularFireAuth,
@@ -32,13 +38,15 @@ export class AuthProvider {
   ) {
     const authState = this._afAuth.authState.subscribe( user => {
       if (user) {
-        firebase.database().ref(`users/${this._afAuth.auth.currentUser.uid}/company`)
+        firebase.database().ref(`users/${this._afAuth.auth.currentUser.uid}`)
         .once('value').then( snapshot => {
           if (snapshot.val() === null) {
           } else {
-            let value = snapshot.val();
-            let companyId = value.id;
-            let comPosition = value.position
+            let user = snapshot.val();
+
+            this._user.next(user);
+            let companyId = user.company.id;
+            let comPosition = user.company.position
             // emit a new value for the company position Subject
             this._comPosition.next(comPosition);
   
