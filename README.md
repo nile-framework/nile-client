@@ -28,17 +28,27 @@ For each prerequisite you should have the most recent release.
 
 ## <a name="getting-started"></a>Getting Started
 
-Only start here if you have check 
+Only start here if you have recent a recent release of the prerequisites.
 
 1. Clone or download this repository.
  ```bash
  git clone https://github.com/nile-framework/nile-client.git
  ```
-cd so that you are in the nile client project directory and run this command _Note: It will possibly take a few minutes to run.
+ 
+2. Change directory so that you are in the nile client project directory and run this command _Note: This command can take a few minutes to run.
 ```bash
   npm install
 ```
- 
+3. Start the development server _Note: this too can take a minute
+```bash
+  ionic start
+```
+In a browser window, navigate to http://localhost:8100/
+
+
+
+The rest of the document was from default README, it will be changed/removed eventually.
+
 
 
 ## Pages
