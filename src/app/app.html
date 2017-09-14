@@ -8,7 +8,7 @@
 
     <ion-content>
         <ion-list>
-        <button menuClose ion-item *ngFor="let p of appPages" (click)="openPage(p)">
+        <button menuClose ion-item *ngFor="let p of adminPages" (click)="openPage(p)">
             {{p.title}}
         </button>
         </ion-list>
@@ -26,7 +26,8 @@
 
     <ion-content>
         <ion-list>
-        <button menuClose ion-item *ngFor="let p of appPages" (click)="openPage(p)">
+        <!-- Here we differ from the owner/admin menu by looping over a different set of pages. -->
+        <button menuClose ion-item *ngFor="let p of employeeNavPages" (click)="openPage(p)">
             {{p.title}}
         </button>
         </ion-list>
