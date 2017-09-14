@@ -36,8 +36,8 @@ export class AuthProvider {
     private _afAuth: AngularFireAuth,
     private _afDb: AngularFireDatabase
   ) {
-    const authState = this._afAuth.authState.subscribe( user => {
-      if (user) {
+    // const authState = this._afAuth.authState.subscribe( user => {
+    //   if (user) {
         firebase.database().ref(`users/${this._afAuth.auth.currentUser.uid}`)
         .once('value').then( snapshot => {
           if (snapshot.val() === null) {
@@ -65,10 +65,10 @@ export class AuthProvider {
             // });
           }
         });
-      } else {
-        // console.log('user is false');
-      }
-    });
+      // } else {
+      //   // console.log('user is false');
+      // }
+    // });
   }
 
   getUser():firebase.User {

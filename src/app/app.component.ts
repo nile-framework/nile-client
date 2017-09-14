@@ -154,6 +154,12 @@ export class MyApp {
     this.events.subscribe('menu:enable', _ => {
       this.enableMenu(true);
     });
+    // for the unique moment after a user creates an admin account and we can't rely the users 'position'
+    // being set within the database. 
+    // The problem is that the first thing to run is the create user command, we wait for that to return a promise
+    this.events.subscribe('menuAdmin:enable', _ => {
+      this.menuCtrl.enable(true, 'adminMenu')
+    })
   }
 
 

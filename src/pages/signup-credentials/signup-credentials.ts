@@ -86,7 +86,7 @@ export class SignupCredentialsPage {
           }).then( snapshot => {
             this.navCtrl.setRoot('TabsPage').then( _ => {
               // activate the correct side navigation menu.
-              this._events.publish('menu:enable');
+              this._events.publish('menuAdmin:enable');
               // display a success message to the user.
               let toast = this.toastCtrl.create({
                 message: 'Account successfully created',
