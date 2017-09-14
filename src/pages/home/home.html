@@ -11,8 +11,13 @@
 
 
 <ion-content padding>
-  <button ion-button full (click)="startOrder()">
+  <button [disabled]="!authorized" ion-button full (click)="startOrder()">
     {{'Start new order' | translate }}
   </button>
+
+
+  
+
+
 
 </ion-content>
