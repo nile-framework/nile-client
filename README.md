@@ -5,7 +5,9 @@ This repository is the client(customer) mobile application for the Nile framewor
 # Prerequisites:
 1. [node js](https://nodejs.org/en/)
 2. [ionic](https://ionicframework.com/getting-started/)
+<br>
 If you are contributing to the codebase, you should also have.
+<br>
 3. [git](https://git-scm.com/downloads)
 4. [firebase cli tools](https://github.com/firebase/firebase-tools)
 
