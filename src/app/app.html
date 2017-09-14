@@ -1,4 +1,5 @@
-<ion-menu id="ownerAuthorizedMenu" [content]="content">
+<!-- company owner/admin navigation menu -->
+<ion-menu id="adminMenu" [content]="content">
     <ion-header>
         <ion-toolbar>
         <ion-title>Nile</ion-title>
@@ -7,12 +8,31 @@
 
     <ion-content>
         <ion-list>
-        <button menuClose ion-item *ngFor="let p of appPages" (click)="openPage(p)">
+        <button menuClose ion-item *ngFor="let p of adminPages" (click)="openPage(p)">
             {{p.title}}
         </button>
         </ion-list>
     </ion-content>
         
 </ion-menu>
+
+<!-- employee navigation menu -->
+<ion-menu id="employeeMenu" [content]="content">
+    <ion-header>
+        <ion-toolbar>
+        <ion-title>Nile</ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+        <ion-list>
+        <!-- Here we differ from the owner/admin menu by looping over a different set of pages. -->
+        <button menuClose ion-item *ngFor="let p of employeePages" (click)="openPage(p)">
+            {{p.title}}
+        </button>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+
 
 <ion-nav #content [root]="rootPage"></ion-nav>

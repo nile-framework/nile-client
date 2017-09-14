@@ -48,24 +48,29 @@ export interface PageInterface {
 export class MyApp {
   rootPage: any;
 
+  position: any;
+
   @ViewChild(Nav) nav: Nav;
 
     // List of pages that can be navigated to from the left menu
     // the left menu only works after login
     // the login page disables the left menu
-    appPages: PageInterface[] = [
+    adminPages: PageInterface[] = [
       { title: 'Home', name: 'TabsPage', component: 'TabsPage', tabComponent: 'HomePage', index: 0, icon: 'home' },
       { title: 'Vendors', name: 'TabsPage', component: 'TabsPage', tabComponent: 'VendorsPage', index: 1, icon: 'basket' },
-      { title: 'Job Sites', name: 'TabsPage', component: 'TabsPage', tabComponent: 'JobSitesPage', index: 2, icon: 'ionic' },
-      { title: 'Settings', name: 'SettingsPage', component: 'SettingsPage', icon: 'information-circle' }
+      { title: 'Job Sites', name: 'TabsPage', component: 'TabsPage', tabComponent: 'JobSitesPage', index: 2, icon: 'ionic' }, 
+      { title: 'Employees', name: 'EmployeesPage', component: 'EmployeesPage', icon: 'people' },
+      { title: 'Settings', name: 'SettingsPage', component: 'SettingsPage', icon: 'information-circle' },
       // { title: 'Settings', name: 'SettingsPage', component: 'MapPage', icon: 'information-circle' }
     ];
 
-    // waitingPages: PageInterface[] = [
-    //   { title: 'Login', name: 'LoginPage', component: LoginPage, icon: 'log-in' },
-    //   { title: 'Support', name: 'SupportPage', component: SupportPage, icon: 'help' },
-    //   { title: 'Account', name: 'SignupPage', component: SignupPage, icon: 'person-add' }
-    // ];
+    employeePages: PageInterface[] = [
+      { title: 'Home', name: 'TabsPage', component: 'TabsPage', tabComponent: 'HomePage', index: 0, icon: 'home' },
+      { title: 'Vendors', name: 'TabsPage', component: 'TabsPage', tabComponent: 'VendorsPage', index: 1, icon: 'basket' },
+      { title: 'Job Sites', name: 'TabsPage', component: 'TabsPage', tabComponent: 'JobSitesPage', index: 2, icon: 'ionic' },
+      { title: 'Settings', name: 'SettingsPage', component: 'SettingsPage', icon: 'information-circle' },
+    ]
+
 
   // pages: any[] = [
   //   { title: 'Tutorial', component: 'TutorialPage' },
@@ -100,18 +105,21 @@ export class MyApp {
         authState.unsubscribe();
         // now we check the users profile inside the database for the value of 'waitingPage' 
         //NOTICE: we use template literals (backticks ( ` ` )) in the database call.
-        firebase.database().ref(`users/${this._afAuth.auth.currentUser.uid}/waitingPage`).once('value').then( snapshot => {
+        firebase.database().ref(`users/${this._afAuth.auth.currentUser.uid}/company/position`).once('value').then( snapshot => {
           // extract the value from the snapshot
           let value = snapshot.val();
-          // console.log('snapshot.val() is : ' + value);
-          // If waitingPage === true, we send the user to the waiting page,
+          console.log('snapshot.val() is : ' + value);
+          // If value === 'owner' then 
           // if waitingPage === false, we navigate the user to the home page. I know, no shit sherlock.
-          if (value === true) {
-            this.nav.setRoot('WaitingPage');
-            this.menuCtrl.enable(false);
-          } else {
+          if (value === 'owner') {
             this.nav.setRoot('TabsPage');
-            this.menuCtrl.enable(true);    // If we're authorized, we also enable the navigation menu.
+            this.position = value;
+            this.enableMenu(true);
+          } else {
+            // the user is an employee, set the appropriate nav menu.
+            this.position = value;
+            this.nav.setRoot('TabsPage');
+            this.enableMenu(true);
           }
         });
       } else {
@@ -136,15 +144,36 @@ export class MyApp {
     });
   }
 
+
   // we subscribe to a few different events primarily to enable and disable the main navigation menu.
   listenToEvents() {
     this.events.subscribe('menu:disable', _ => {
       this.menuCtrl.enable(false);
+      this.enableMenu(false);
     });
     this.events.subscribe('menu:enable', _ => {
-      this.menuCtrl.enable(true);
+      this.enableMenu(true);
     });
   }
+
+
+  // enable or disable the apporpriate menu.
+  enableMenu(enable: boolean) {
+    switch(this.position){
+      case 'owner': {
+        this.menuCtrl.enable(enable, 'adminMenu')
+        break;
+      }
+      case 'employee': {
+        this.menuCtrl.enable(enable, 'employeeMenu')
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }
+
 
   initTranslate() {
     // Set the default language for translation strings, and the current language.
@@ -160,6 +189,7 @@ export class MyApp {
       this.config.set('ios', 'backButtonText', values.BACK_BUTTON_TEXT);
     });
   }
+
 
   openPage(page: PageInterface) {
     let params = {};
