@@ -65,7 +65,7 @@ export class HomePage {
       deliveriesPerWeek: ['', Validators.required]
     })
 
-    firebase.database().ref(``)
+    
   }
 
   startOrder() {
