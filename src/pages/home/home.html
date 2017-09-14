@@ -11,8 +11,65 @@
 
 
 <ion-content padding>
-  <button ion-button full (click)="startOrder()">
+  <button *ngIf="authorized" ion-button full (click)="startOrder()">
     {{'Start new order' | translate }}
   </button>
+
+  <div *ngIf="displayInitialCompanyForm" style="margin-top:5vh;">
+    <h3 text-center style="color:#ef9a07">We will contact you shortly at {{ user?.phoneNumber}}</h3>
+    <form [formGroup]="initialInfoForm" (submit)="onSubmitInitialInfoForm()" novalidate>
+      <ion-card *ngIf="!initialInfoFormSubmitted">
+        <ion-card-title style="margin-right: 2vw; margin-left: 1vw">
+         <p>In the meantime, providing us with some basic information about your company will help speed the process along.</p>
+        </ion-card-title>
+        <ion-card-content>
+            
+            <ion-item>
+              <ion-label stacked>Company name</ion-label>
+              <ion-input formControlName="name" type="text" placeholder="ex: Pizza Hut"></ion-input>
+            </ion-item>
+          
+            <ion-item>
+              <ion-label stacked>Company email</ion-label>
+              <ion-input formControlName="email" type="email" clearInput></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label stacked>Company phone number</ion-label>
+              <ion-input formControlName="phoneNumber" type="tel" clearInput></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>How many deliveries per week?</ion-label>
+              <ion-select formControlName="deliveriesPerWeek">
+                <ion-option value="1-3">1-3</ion-option>
+                <ion-option value="4-7">4-7</ion-option>
+                <ion-option value="8-12">8-12</ion-option>
+                <ion-option value="12-20">12-20</ion-option>
+                <ion-option value="20+">20+</ion-option>
+              </ion-select>
+            </ion-item>
+
+            <button ion-button block [disabled]="displayInitialCompanyForm.invalid" type="submit">
+              Submit
+            </button>
+          
+        </ion-card-content>
+      </ion-card>
+      <div *ngIf="initialInfoFormSubmitted">
+        <p text-center>
+          Thanks! Feel free to fill out any other information below:
+        </p>
+        <p>
+          More questions can go here in a way that the user can easiy answer or dismiss.
+        </p>
+      </div>
+    </form>
+
+  </div>
+
+  
+
+
 
 </ion-content>

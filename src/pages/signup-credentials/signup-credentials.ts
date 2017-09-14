@@ -67,35 +67,37 @@ export class SignupCredentialsPage {
         this.basicInfo.lastName
       ).then( user => {
         this.loading.dismiss().then( _ => {
-          // this.navCtrl.setRoot('TabsPage').then( _ => {
-            // activate the correct side navigation menu.
-            this._events.publish('');
-            // display a success message to the user.
-            let toast = this.toastCtrl.create({
-              message: 'Account successfully created',
-              duration: 3000,
-              position: 'middle'
-            });
-            toast.present();
             // we need to move this to a better location or change the process somehow (possibly cloud functions)
-            this._afDb.list(`/companies`).push({
-              owner: {
-                [this._afAuth.auth.currentUser.uid]: true
-              },
-              authState: 'initialSetup'
-            }).then( snapshot => {
-              this._afDb.object(`users/${this._afAuth.auth.currentUser.uid}`).update({
-                company: {
-                  id: snapshot.key,
-                  position: 'owner',
-                  authorized: false
-                }
-              })
-              console.log('snapshot is ' + snapshot);
-              console.dir(snapshot);
-            })
+          this._afDb.list(`/companies`).push({
+            owner: {
+              [this._afAuth.auth.currentUser.uid]: true
+            },
+            authState: 'initialSetup'
+          }).then( snapshot => {
+            this._afDb.object(`users/${this._afAuth.auth.currentUser.uid}`).update({  
+              company: {
+                id: snapshot.key,
+                position: 'owner',
+                authorized: false
+              }
+            });
+            console.log('snapshot is ' + snapshot);
+            console.dir(snapshot);
+          }).then( snapshot => {
+            this.navCtrl.setRoot('TabsPage').then( _ => {
+              // activate the correct side navigation menu.
+              this._events.publish('menu:enable');
+              // display a success message to the user.
+              let toast = this.toastCtrl.create({
+                message: 'Account successfully created',
+                duration: 3000,
+                position: 'middle'
+              });
+              toast.present();
+            });
           });
-        // });
+          // });
+        });
       }, error => {
         this.loading.dismiss().then( _ => {
           let alert = this.alertCtrl.create({
