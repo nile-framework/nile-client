@@ -15,6 +15,43 @@
     {{'Start new order' | translate }}
   </button>
 
+  <div *ngIf="displayInitialCompanyForm" style="margin-top:5vh;">
+    <h3 text-center style="color:#ef9a07">Before you can start, we need some basic info</h3>
+    <form [formGroup]="initialInfoForm" (submit)="onSubmitInitialInfoForm()" novalidate>
+      <ion-card >
+        <ion-card-content>
+            
+            <ion-item>
+              <ion-label floating>Company name</ion-label>
+              <ion-input formControlName="name" type="text"></ion-input>
+            </ion-item>
+          
+            <ion-item>
+              <ion-label floating>Company email</ion-label>
+              <ion-input formControlName="email" type="email"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label floating>Company phone number</ion-label>
+              <ion-input formControlName="phoneNumber" type="tel"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>How many deliveries per week?</ion-label>
+              <ion-select formControlName="deliveriesPerWeek">
+                <ion-option value="1-3"></ion-option>
+                <ion-option value="4-7"></ion-option>
+                <ion-option value="8-12"></ion-option>
+                <ion-option value="12-20"></ion-option>
+                <ion-option value="20+"></ion-option>
+              </ion-select>
+            </ion-item>
+          
+        </ion-card-content>
+      </ion-card>
+    </form>
+
+  </div>
 
   
 
