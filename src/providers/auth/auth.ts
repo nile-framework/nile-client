@@ -34,29 +34,29 @@ export class AuthProvider {
       if (user) {
         firebase.database().ref(`users/${this._afAuth.auth.currentUser.uid}/company`)
         .once('value').then( snapshot => {
-          let value = snapshot.val();
-          let companyId = value.id;
-          let comPosition = value.position
-          // emit a new value for the company position Subject
-          this._comPosition.next(comPosition);
-
-          this._companyId.next(companyId);
-          // determine authorization state
-          firebase.database().ref(`companies/${companyId}/authState`).once('value').then(snapshot => {
+          if (snapshot.val() === null) {
+          } else {
             let value = snapshot.val();
-            this._authState.next(value);
-          })
-          // this commented out section does the same operation as above, but we subscribe to the auth state, we don't get the value once.
-            // the problem is that when we log out, the auth state changes which triggers the observable we are currently inside to emit a new value
-            // then we try to do a database read and are not authorized. TODO: fix this.
-          // this._afDb.object(`companies/${companyId}/authState`, {preserveSnapshot: true}).subscribe( snapshot => {
-          //   let value = snapshot.val();
-          //   this._authState.next(value);
-          // });
+            let companyId = value.id;
+            let comPosition = value.position
+            // emit a new value for the company position Subject
+            this._comPosition.next(comPosition);
+  
+            this._companyId.next(companyId);
+            // determine authorization state
+            firebase.database().ref(`companies/${companyId}/authState`).once('value').then(snapshot => {
+              let value = snapshot.val();
+              this._authState.next(value);
+            });
+            // this commented out section does the same operation as above, but we subscribe to the auth state, we don't get the value once.
+              // the problem is that when we log out, the auth state changes which triggers the observable we are currently inside to emit a new value
+              // then we try to do a database read and are not authorized. TODO: fix this...
+            // this._afDb.object(`companies/${companyId}/authState`, {preserveSnapshot: true}).subscribe( snapshot => {
+            //   let value = snapshot.val();
+            //   this._authState.next(value);
+            // });
+          }
         });
-
-        
-
       } else {
         // console.log('user is false');
       }
