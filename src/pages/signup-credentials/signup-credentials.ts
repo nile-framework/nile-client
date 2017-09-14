@@ -68,7 +68,7 @@ export class SignupCredentialsPage {
         'owner'
       ).then( user => {
         this.loading.dismiss().then( _ => {
-          this.navCtrl.setRoot('TabsPage').then( _ => {
+          // this.navCtrl.setRoot('TabsPage').then( _ => {
             // activate the correct side navigation menu.
             this._events.publish('');
             // display a success message to the user.
@@ -78,8 +78,24 @@ export class SignupCredentialsPage {
               position: 'middle'
             });
             toast.present();
-          })
-        })
+            // we need to move this to a better location or change the process somehow (possibly cloud functions)
+            this._afDb.list(`/companies`).push({
+              owner: {
+                [this._afAuth.auth.currentUser.uid]: true
+              }
+            }).then( snapshot => {
+              this._afDb.object(`users/${this._afAuth.auth.currentUser.uid}`).update({
+                company: {
+                  id: snapshot.key,
+                  position: 'owner',
+                  authorized: false
+                }
+              })
+              console.log('snapshot is ' + snapshot);
+              console.dir(snapshot);
+            })
+          });
+        // });
       }, error => {
         this.loading.dismiss().then( _ => {
           let alert = this.alertCtrl.create({
