@@ -16,6 +16,7 @@ While not necessary for this specific project, you should also consider having
 
 5. [angular cli](https://github.com/angular/angular-cli)
 
+For each prerequisite you should have the most recent release.
 
 
 ## Table of Contents
@@ -27,15 +28,18 @@ While not necessary for this specific project, you should also consider having
 
 ## <a name="getting-started"></a>Getting Started
 
+Only start here if you have check 
+
 1. Clone or download this repository.
  ```bash
  git clone https://github.com/nile-framework/nile-client.git
  ```
+cd so that you are in the nile client project directory and run this command _Note: It will possibly take a few minutes to run.
+```bash
+  npm install
+```
  
 
-```bash
-ionic start mySuperApp super
-```
 
 ## Pages
 
