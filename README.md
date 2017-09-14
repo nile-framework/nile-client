@@ -1,3 +1,21 @@
+# Nile client
+
+This repository is the client(customer) mobile application for the Nile framework.
+
+# Prerequisites:
+1. [node js](https://nodejs.org/en/)
+2. [ionic](https://ionicframework.com/getting-started/)
+If you are contributing to the codebase, you should also have.
+3. [git](https://git-scm.com/downloads)
+4. [firebase cli tools](https://github.com/firebase/firebase-tools)
+
+While not necessary for this specific project, you should also consider having 
+5. [angular cli](https://github.com/angular/angular-cli)
+
+
+
+
+
 # The Ionic Super Starter 🎮
 
 _Note: the Ionic Super Starter requires Ionic CLI 3._
