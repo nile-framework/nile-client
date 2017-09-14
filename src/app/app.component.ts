@@ -70,13 +70,6 @@ export class MyApp {
     ]
 
 
-
-    // waitingPages: PageInterface[] = [
-    //   { title: 'Login', name: 'LoginPage', component: LoginPage, icon: 'log-in' },
-    //   { title: 'Support', name: 'SupportPage', component: SupportPage, icon: 'help' },
-    //   { title: 'Account', name: 'SignupPage', component: SignupPage, icon: 'person-add' }
-    // ];
-
   // pages: any[] = [
   //   { title: 'Tutorial', component: 'TutorialPage' },
   //   { title: 'Welcome', component: 'WelcomePage' },
