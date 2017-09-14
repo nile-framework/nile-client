@@ -64,8 +64,7 @@ export class SignupCredentialsPage {
         this.form.value.password,
         this.basicInfo.phoneNumber,
         this.basicInfo.firstName,
-        this.basicInfo.lastName,
-        'owner'
+        this.basicInfo.lastName
       ).then( user => {
         this.loading.dismiss().then( _ => {
           // this.navCtrl.setRoot('TabsPage').then( _ => {
