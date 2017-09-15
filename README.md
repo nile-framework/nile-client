@@ -41,7 +41,7 @@ Only start here if you have recent a recent release of the prerequisites.
 ```
 3. Start the development server _Note: this too can take a minute
 ```bash
-  ionic start
+  ionic serve
 ```
 In a browser window, navigate to http://localhost:8100/
 
