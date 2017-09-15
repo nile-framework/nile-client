@@ -35,7 +35,7 @@ Only start here if you have recent a recent release of the prerequisites.
  git clone https://github.com/nile-framework/nile-client.git
  ```
  
-2. Change directory so that you are in the nile client project directory and run this command _Note: This command can take a few minutes to run.
+2. Change directory so that you are in the nile client project directory and run this command _Note: This command can take a few minutes to run._
 ```bash
   npm install
 ```
