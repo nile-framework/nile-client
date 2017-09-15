@@ -39,7 +39,7 @@ Only start here if you have recent a recent release of the prerequisites.
 ```bash
   npm install
 ```
-3. Start the development server _Note: this too can take a minute
+3. Start the development server _Note: this too can take a minute to run_
 ```bash
   ionic serve
 ```
